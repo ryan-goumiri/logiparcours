@@ -332,6 +332,11 @@ details[open]>summary .chev{transform:rotate(90deg)}
 .illus figcaption{font-size:.86rem;color:var(--muted);text-align:center;margin-top:6px}
 .ref-refs{font-size:.85rem;color:#ffd9b0!important}
 .ref-epreuve h4{margin:.8em 0 .2em}.ref-epreuve summary{margin:0}
+/* Données personnelles */
+.privacy-link{display:block;text-align:center;margin-top:.6rem;font-size:.85rem;color:var(--muted)}
+.app-foot{text-align:center;padding:1.2rem .5rem 2rem;font-size:.85rem}.app-foot a{color:var(--muted)}
+.privacy h1{font-size:1.5rem;margin:0 0 .6rem}.privacy h2{font-size:1.15rem;margin:0 0 .5rem}
+.privacy ul{margin:.3rem 0 .6rem;padding-left:1.3rem}.privacy li{margin:.25rem 0}.privacy p{line-height:1.55}
 </style>
 </head>
 <body>
@@ -559,13 +564,15 @@ details[open]>summary .chev{transform:rotate(90deg)}
         <div class="err"></div>
       </form>
       <a class="prof-link" href="#/prof">Espace professeur \u2192</a>
+      <a class="privacy-link" href="#/donnees">🔒 Données personnelles</a>
       ${L?'<div class="demo-note"><b>Mode d\xE9mo</b> \u2014 codes \xE9l\xE8ves : <code>DEMOC1</code> (CAP OOL) \xB7 <code>DEMOG1</code> (2GATL) \xB7 mot de passe prof : <code>prof</code></div>':""}
     </div></div>`;let s=e.querySelector("form");s.onsubmit=async t=>{t.preventDefault();let i=ve(s.code.value);s.querySelector(".err").textContent="";try{let n=await Qe(i);if(!n){s.querySelector(".err").textContent="Code inconnu ou d\xE9sactiv\xE9. V\xE9rifie aupr\xE8s de ton professeur.";return}ds(i,s.remember.checked),g={code:i,...n},Ot(),location.hash="#/eleve"}catch(n){s.querySelector(".err").textContent="Connexion impossible : "+n.message}}}function le(e,s,{back:t}={}){let i=V[g.student.class_id];e.innerHTML=`<header class="topbar">
     ${t?`<a class="btn ghost sm" href="${t}">\u2190 Retour</a>`:`<div class="brand">\u{1F4E6} ${c(F.APP_NAME)}</div>`}
     <div class="who"><span class="badge">${c(i.name)}</span> ${c(g.student.pseudo)}</div>
     <a class="btn ghost sm" href="#/eleve/ref">\u{1F4D8} <span class="hide-sm">R\xE9f\xE9rentiel</span></a>
     <button class="btn ghost sm logout">Quitter</button>
-  </header><main class="page">${s}</main>`,e.querySelector(".logout").onclick=async()=>{await K("Te d\xE9connecter ?",{ok:"Me d\xE9connecter"})&&_t()}}var us={done:["\u2705","Termin\xE9"],available:["\u25B6\uFE0F","\xC0 faire"],inprogress:["\u23F3","En cours"],locked:["\u{1F512}","Verrouill\xE9"],soon:["\u{1F6E0}","Bient\xF4t disponible"]};async function Ft(e){if(!await oe())return;ae("Accueil");let s=V[g.student.class_id],i=qe(s,g.settings,g.student,g.attempts,g.paper).filter(d=>d.status!=="hidden"),n=i.filter(d=>d.status==="done").length,r=se(i),l=i.find(d=>d.status==="available"||d.status==="inprogress"),a=be(g.settings),o=`<section class="hero">
+  </header><main class="page">${s}</main>
+  <footer class="app-foot"><a href="#/donnees">🔒 Données personnelles</a></footer>`,e.querySelector(".logout").onclick=async()=>{await K("Te d\xE9connecter ?",{ok:"Me d\xE9connecter"})&&_t()}}var us={done:["\u2705","Termin\xE9"],available:["\u25B6\uFE0F","\xC0 faire"],inprogress:["\u23F3","En cours"],locked:["\u{1F512}","Verrouill\xE9"],soon:["\u{1F6E0}","Bient\xF4t disponible"]};async function Ft(e){if(!await oe())return;ae("Accueil");let s=V[g.student.class_id],i=qe(s,g.settings,g.student,g.attempts,g.paper).filter(d=>d.status!=="hidden"),n=i.filter(d=>d.status==="done").length,r=se(i),l=i.find(d=>d.status==="available"||d.status==="inprogress"),a=be(g.settings),o=`<section class="hero">
     <div><h1>Bonjour ${c(g.student.pseudo)} \u{1F44B}</h1><p class="muted">${c(s.fullName)}</p></div>
     <div class="hero-stats">
       <div class="stat"><b>${n}/${i.length}</b><span>modules termin\xE9s</span></div>
@@ -721,7 +728,74 @@ Ma\xEBlle B.
     <p>Fichier compatible Excel : une ligne par \xE9l\xE8ve, avec pour chaque module la note du test (/100 et /20), la note papier et la note finale, puis la moyenne.</p>
     <button class="btn primary dl">\u2B07\uFE0F T\xE9l\xE9charger (Excel / CSV)</button></section>
     <section class="card"><h2>D\xE9tail des tentatives</h2><p>Toutes les activit\xE9s et tests, avec date, score et dur\xE9e.</p><button class="btn dl2">\u2B07\uFE0F T\xE9l\xE9charger le d\xE9tail</button></section>`}function Ts(e){let{app:s}=P,t=r=>"\uFEFF"+r.map(l=>l.map(a=>`"${String(a??"").replace(/"/g,'""')}"`).join(";")).join(`\r
-`),i=(r,l)=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([l],{type:"text/csv;charset=utf-8"})),a.download=r,a.click()},n=r=>r==null?"":String(r).replace(".",",");s.querySelector(".dl").onclick=()=>{let r=te(e).filter(o=>o.ready),l=["\xC9l\xE8ve","Code",...r.flatMap(o=>[`${_(o)} test /100`,`${_(o)} test /20`,`${_(o)} papier /20`,`${_(o)} finale /20`]),"Moyenne /20"],a=q.students.map(o=>{let d=Be(e,o);return[o.pseudo,o.code,...r.flatMap(m=>{let u=d.find(p=>p.module.id===m.id);return[u?.test?.score??"",n(u?.online20),n(u?.paper20),n(u?.final20)]}),n(se(d.filter(m=>m.status!=="hidden")))]});i(`notes_${e.id}_${new Date().toISOString().slice(0,10)}.csv`,t([l,...a]))},s.querySelector(".dl2").onclick=()=>{let r=te(e),l=q.attempts.map(a=>{let o=q.students.find(u=>u.id===a.student_id),d=r.find(u=>u.id===a.module_id),m=d?.activites?.find(u=>u.id===a.item_id);return[o?.pseudo,new Date(a.created_at).toLocaleString("fr-FR"),d?`${_(d)}`:a.module_id,a.kind==="test"?"Test final":a.kind==="course"?"Cours":"Activit\xE9",m?.title||"",a.score,n(a.score/5),a.duration_s||"",a.voided?"annul\xE9":""]});i(`detail_${e.id}_${new Date().toISOString().slice(0,10)}.csv`,t([["\xC9l\xE8ve","Date","Module","Type","Activit\xE9","Score /100","Sur 20","Dur\xE9e (s)","Statut"],...l]))}}var N=document.getElementById("app");async function Jt(){let e=(location.hash.replace(/^#\/?/,"")||"").split("/").filter(Boolean);window.scrollTo(0,0);try{if(e[0]==="prof")return e.length===1?Qt(N):Wt(N,e[1],e[2]||"suivi",e[3],e.slice(3));if(xe(),e[0]==="eleve"){if(!Fe()){location.hash="#/";return}return e[1]==="jeux"?Vt(N):e[1]==="ref"?Gt(N,e.slice(2)):e[1]==="m"&&e[2]?e[3]==="cours"?zt(N,e[2]):e[3]==="a"&&e[4]?tt(N,e[2],e[4]):e[3]==="test"?Bt(N,e[2]):Nt(N,e[2]):Ft(N)}if(Fe()){location.hash="#/eleve";return}It(N)}catch(s){console.error(s),N.innerHTML=`<div class="page"><div class="card"><h2>Oups\u2026</h2><p>${s.message}</p><a class="btn" href="#/">Retour \xE0 l\u2019accueil</a></div></div>`}}window.addEventListener("hashchange",Jt);Jt();
+`),i=(r,l)=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([l],{type:"text/csv;charset=utf-8"})),a.download=r,a.click()},n=r=>r==null?"":String(r).replace(".",",");s.querySelector(".dl").onclick=()=>{let r=te(e).filter(o=>o.ready),l=["\xC9l\xE8ve","Code",...r.flatMap(o=>[`${_(o)} test /100`,`${_(o)} test /20`,`${_(o)} papier /20`,`${_(o)} finale /20`]),"Moyenne /20"],a=q.students.map(o=>{let d=Be(e,o);return[o.pseudo,o.code,...r.flatMap(m=>{let u=d.find(p=>p.module.id===m.id);return[u?.test?.score??"",n(u?.online20),n(u?.paper20),n(u?.final20)]}),n(se(d.filter(m=>m.status!=="hidden")))]});i(`notes_${e.id}_${new Date().toISOString().slice(0,10)}.csv`,t([l,...a]))},s.querySelector(".dl2").onclick=()=>{let r=te(e),l=q.attempts.map(a=>{let o=q.students.find(u=>u.id===a.student_id),d=r.find(u=>u.id===a.module_id),m=d?.activites?.find(u=>u.id===a.item_id);return[o?.pseudo,new Date(a.created_at).toLocaleString("fr-FR"),d?`${_(d)}`:a.module_id,a.kind==="test"?"Test final":a.kind==="course"?"Cours":"Activit\xE9",m?.title||"",a.score,n(a.score/5),a.duration_s||"",a.voided?"annul\xE9":""]});i(`detail_${e.id}_${new Date().toISOString().slice(0,10)}.csv`,t([["\xC9l\xE8ve","Date","Module","Type","Activit\xE9","Score /100","Sur 20","Dur\xE9e (s)","Statut"],...l]))}}var N=document.getElementById("app");function LPpriv(a,b){a.innerHTML=`<header class="topbar">
+<a class="btn ghost sm" href="${b}">← Retour</a>
+<div class="brand">📦 LogiParcours</div>
+</header>
+<main class="page privacy">
+<section class="card">
+<h1>🔒 Tes données personnelles</h1>
+<p>LogiParcours est un logiciel d’entraînement utilisé en cours de logistique au lycée. Cette page explique, simplement, quelles informations sont enregistrées quand tu l’utilises, à quoi elles servent et quels sont tes droits.</p>
+<p class="muted">Dernière mise à jour : 24 novembre 2026.</p>
+</section>
+<section class="card">
+<h2>Qui est responsable ?</h2>
+<p>Le logiciel est utilisé dans le cadre des cours de <b>M. Goumiri</b>, professeur de logistique. Le responsable des données est <b>le lycée, représenté par son chef d’établissement</b>.</p>
+</section>
+<section class="card">
+<h2>À quoi servent tes données ?</h2>
+<ul>
+<li>Te permettre de suivre les cours, faire les activités et passer les tests de chaque module.</li>
+<li>Enregistrer ta progression et tes notes.</li>
+<li>Permettre à ton professeur de suivre ton travail et de t’aider.</li>
+</ul>
+<p>Ces données sont utilisées <b>uniquement pour l’enseignement</b>, dans le cadre de la mission de service public du lycée (article 6.1.e du RGPD). Elles ne servent jamais à de la publicité.</p>
+</section>
+<section class="card">
+<h2>Quelles données sont enregistrées ?</h2>
+<ul>
+<li><b>Ton identité dans le logiciel</b> : ton prénom et l’initiale de ton nom (par exemple « Lucas M. »), ta classe et ton code personnel.</li>
+<li><b>Ton travail</b> : tes réponses aux tests, tes scores, la date et la durée de tes activités, et les notes papier saisies par ton professeur.</li>
+<li><b>Ton activité</b> : l’heure de ta dernière connexion et la page sur laquelle tu te trouves, pour que ton professeur voie qui est en ligne pendant le cours.</li>
+</ul>
+<p><b>Ne sont pas enregistrés :</b> ton nom complet, ton adresse e-mail, ton adresse, ton numéro de téléphone, ta photo ou ta position.</p>
+<p>Si tu coches « Rester connecté sur cet appareil », ton code est gardé <b>sur ton appareil uniquement</b>. Le bouton « Quitter » l’efface. Le logiciel n’utilise aucun cookie publicitaire ni outil de statistiques.</p>
+</section>
+<section class="card">
+<h2>Qui peut voir tes données ?</h2>
+<ul>
+<li><b>Toi</b> : tu vois uniquement tes propres résultats.</li>
+<li><b>Ton professeur</b> : il voit les résultats des élèves de ses classes, avec un accès protégé par mot de passe.</li>
+</ul>
+<p>Les autres élèves ne voient pas tes résultats. Tes données ne sont <b>ni vendues, ni transmises</b> à d’autres personnes ou entreprises.</p>
+</section>
+<section class="card">
+<h2>Où sont stockées tes données ?</h2>
+<ul>
+<li>Les données (codes, résultats, progression) sont stockées dans une base de données <b>Supabase</b>, sur des serveurs situés <b>en Europe</b>.</li>
+<li>Le site est hébergé par <b>GitHub Pages</b>. Comme tout site internet, l’hébergeur peut enregistrer techniquement l’adresse IP des visiteurs, pour assurer le bon fonctionnement et la sécurité du service.</li>
+<li>Une partie technique du logiciel est téléchargée depuis le service <b>esm.sh</b>, qui reçoit aussi l’adresse IP de l’appareil.</li>
+</ul>
+<p>Supabase, GitHub et esm.sh sont des prestataires techniques : ils n’ont pas le droit d’utiliser tes résultats pour leur propre compte.</p>
+</section>
+<section class="card">
+<h2>Combien de temps sont-elles gardées ?</h2>
+<p>Tes données sont gardées pendant ta formation au lycée. Elles sont <b>supprimées au plus tard le 31 août qui suit la fin de ta formation</b>, ou plus tôt si tu quittes la classe.</p>
+</section>
+<section class="card">
+<h2>Quels sont tes droits ?</h2>
+<p>Toi et tes responsables légaux pouvez à tout moment :</p>
+<ul>
+<li><b>consulter</b> les données qui te concernent ;</li>
+<li>les faire <b>corriger</b> si elles sont fausses ;</li>
+<li>demander leur <b>suppression</b> ou la <b>limitation</b> de leur utilisation ;</li>
+<li>vous <b>opposer</b> à leur utilisation, pour une raison liée à votre situation.</li>
+</ul>
+<p><b>Pour faire une demande :</b> adresse-toi à ton professeur ou au secrétariat du lycée.</p>
+<p>Tu peux aussi contacter le <b>délégué à la protection des données (DPD) de l’académie de Créteil</b>. Ses coordonnées sont sur <a href="https://www.education.gouv.fr/RGPD" target="_blank" rel="noopener">education.gouv.fr/RGPD</a>.</p>
+<p>Si tu estimes que tes droits ne sont pas respectés, tu peux déposer une réclamation auprès de la <b>CNIL</b> sur <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener">cnil.fr</a>.</p>
+</section>
+</main>`}async function Jt(){let e=(location.hash.replace(/^#\/?/,"")||"").split("/").filter(Boolean);window.scrollTo(0,0);try{if(e[0]==="prof")return e.length===1?Qt(N):Wt(N,e[1],e[2]||"suivi",e[3],e.slice(3));if(xe(),e[0]==="donnees")return LPpriv(N,Fe()?"#/eleve":"#/");if(e[0]==="eleve"){if(!Fe()){location.hash="#/";return}return e[1]==="jeux"?Vt(N):e[1]==="ref"?Gt(N,e.slice(2)):e[1]==="m"&&e[2]?e[3]==="cours"?zt(N,e[2]):e[3]==="a"&&e[4]?tt(N,e[2],e[4]):e[3]==="test"?Bt(N,e[2]):Nt(N,e[2]):Ft(N)}if(Fe()){location.hash="#/eleve";return}It(N)}catch(s){console.error(s),N.innerHTML=`<div class="page"><div class="card"><h2>Oups\u2026</h2><p>${s.message}</p><a class="btn" href="#/">Retour \xE0 l\u2019accueil</a></div></div>`}}window.addEventListener("hashchange",Jt);Jt();
 </script>
 </body>
 </html>
